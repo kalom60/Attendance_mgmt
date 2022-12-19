@@ -14,6 +14,15 @@ class UnitLeaderController {
             console.log(err)
         }
     }
+
+    static async allUL(req, res) {
+        try {
+            const all_UL = await pool.query('SELECT * FROM unitleader')
+            res.json(all_UL.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default UnitLeaderController
