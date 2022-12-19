@@ -30,6 +30,16 @@ class GradeController {
             console.log(err)
         }
     }
+
+    static async deleteGrade(req, res) {
+        try {
+            const {id} = req.params
+            await pool.query('DELETE FROM grade WHERE grade_id = $1', [id])
+            res.json('deleted succesfully')
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default GradeController
