@@ -10,6 +10,26 @@ class GradeController {
             console.log(err)
         }
     }
+
+    static async allGrade(req, res) {
+        try {
+            const all_grade = await pool.query('SELECT * FROM grade')
+            res.json(all_grade.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    static async updateGrade(req, res) {
+        try {
+            const {id} = req.params
+            const {grade_name} = req.body
+            await pool.query('UPDATE grade SET grade_name = $1 WHERE grade_id = $2', [grade_name, id])
+            res.json('updated successfully')
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default GradeController
