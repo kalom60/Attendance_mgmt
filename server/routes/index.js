@@ -4,6 +4,7 @@ import multer from 'multer'
 import StudentController from '../controller/studentController.js'
 import GradeController from "../controller/gradeController.js";
 import UnitLeaderController from "../controller/unitLeaderController.js";
+import RegistrarController from "../controller/registrarController.js";
 
 const router = express.Router()
 const storage = multer.diskStorage({
@@ -30,6 +31,10 @@ const upload = multer({
 
 
 // routes to registrar
+router.post('/registrar', RegistrarController.newReg)
+router.get('/registrar', RegistrarController.allReg)
+router.put('/registrar/:id', RegistrarController.updateReg)
+router.delete('/registrar/:id', RegistrarController.deleteReg)
 
 
 // routes to teacher
