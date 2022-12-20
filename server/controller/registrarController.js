@@ -13,6 +13,15 @@ class RegistrarController {
             console.log(err)
         }
     }
+
+    static async allReg(req, res) {
+        try {
+            const all_reg = await pool.query('SELECT * FROM registrar')
+            res.json(all_reg.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default RegistrarController
