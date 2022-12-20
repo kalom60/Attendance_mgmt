@@ -39,6 +39,16 @@ class UnitLeaderController {
             console.log(err)
         }
     }
+
+    static async deleteUL(req, res) {
+        try {
+            const {id} = req.params
+            await pool.query('DELETE FROM unitleader WHERE unitleader_id = $1', [id])
+            res.json('deleted successfully')
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default UnitLeaderController
