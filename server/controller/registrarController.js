@@ -38,6 +38,16 @@ class RegistrarController {
             console.log(err)
         }
     }
+
+    static async deleteReg(req, res) {
+        try {
+            const {id} = req.params
+            await pool.query('DELETE FROM registrar WHERE registrar_id = $1', [id])
+            res.json('deleted successfully')
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default RegistrarController
