@@ -3,6 +3,7 @@ import multer from 'multer'
 
 import StudentController from '../controller/studentController.js'
 import GradeController from "../controller/gradeController.js";
+import UnitLeaderController from "../controller/unitLeaderController.js";
 
 const router = express.Router()
 const storage = multer.diskStorage({
@@ -35,6 +36,10 @@ const upload = multer({
 
 
 // routes to unitleader
+router.post('/unitleader', UnitLeaderController.newUL)
+router.get('/unitleader', UnitLeaderController.allUL)
+router.put('/unitleader/:id', UnitLeaderController.updateUL)
+router.delete('/unitleader/:id', UnitLeaderController.deleteUL)
 
 
 // routes to grade
