@@ -23,6 +23,16 @@ class RegistrarController {
         }
     }
 
+    static async singleReg(req, res) {
+        try {
+            const {id} = req.params
+            const reg = await pool.query('SELECT * FROM registrar WHERE registrar_id = $1', [id])
+            res.json(reg.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     static async updateReg(req, res) {
         try {
             const {id} = req.params

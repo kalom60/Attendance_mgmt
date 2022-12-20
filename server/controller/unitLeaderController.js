@@ -24,6 +24,16 @@ class UnitLeaderController {
         }
     }
 
+    static async singleUL(req, res) {
+        try {
+            const {id} = req.params
+            const reg = await pool.query('SELECT * FROM unitleader WHERE unitleader_id = $1', [id])
+            res.json(reg.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     static async updateUL(req, res) {
         try {
             const {id} = req.params

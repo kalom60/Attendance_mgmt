@@ -20,6 +20,16 @@ class StudentController {
         }
     }
 
+    static async singleStudent(req, res) {
+        try {
+            const {id} = req.params
+            const reg = await pool.query('SELECT * FROM student WHERE student_id = $1', [id])
+            res.json(reg.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     static async updateStudent(req, res) {
         try {
             const {id} = req.params

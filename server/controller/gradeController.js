@@ -20,6 +20,16 @@ class GradeController {
         }
     }
 
+    static async singleGrade(req, res) {
+        try {
+            const {id} = req.params
+            const reg = await pool.query('SELECT * FROM grade WHERE grade_id = $1', [id])
+            res.json(reg.rows)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     static async updateGrade(req, res) {
         try {
             const {id} = req.params
