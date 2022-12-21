@@ -5,27 +5,30 @@ import StudentController from '../controller/studentController.js'
 import GradeController from "../controller/gradeController.js";
 import UnitLeaderController from "../controller/unitLeaderController.js";
 import RegistrarController from "../controller/registrarController.js";
+import TeacherController from "../controller/teacherController.js";
 
 const router = express.Router()
 const storage = multer.diskStorage({
-    destination: (req, file, next) => {
-        next(null, 'media/')
-    },
-    filename: (req, file, next) => {
-        next(null, new Date().toISOString() + file.originalname)
-    }
-})
-
+  destination: (req, file, next) => {
+    next(null, 'media/');
+  },
+  filename: (req, file, next) => {
+      next(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+  },
+});
 const fileFilter = (req, file, next) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') next(null, true)
-    else next(null, false)
-}
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    next(null, true);
+  } else {
+    next(null, false);
+  }
+};
 
 const upload = multer({
-    storage: storage,
-    limits: {fileSize: 1024 * 1024 * 5},
-    fileFilter: fileFilter
-})
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+  fileFilter: fileFilter,
+});
 
 // routes to admin
 
@@ -39,6 +42,11 @@ router.delete('/registrar/:id', RegistrarController.deleteReg)
 
 
 // routes to teacher
+router.post('/teacher', upload.single('teacher_image'), TeacherController.newTecher)
+router.get('/teacher', TeacherController.allTeacher)
+router.get('/teacher/:id', TeacherController.singleTeacher)
+router.put('/teacher/:id', upload.single('teacher_image'), TeacherController.updateTeacher)
+router.delete('/teacher/:id', TeacherController.deleteTeacher)
 
 
 // routes to unitleader
