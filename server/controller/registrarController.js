@@ -40,7 +40,6 @@ class RegistrarController {
                 req.body.registrar_password = await Utils.hashPassword(req.body.registrar_password)
             }
             for (let key in req.body) {
-                if (req.body[key].length === 0) continue
                 await pool.query(`UPDATE registrar SET ${key} = $1 WHERE registrar_id = $2`, [req.body[key], id])
             }
             res.json('updated successfully')

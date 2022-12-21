@@ -41,7 +41,6 @@ class UnitLeaderController {
                 req.body.unitleader_password = await Utils.hashPassword(req.body.unitleader_password)
             }
             for (let key in req.body) {
-                if (req.body[key].length === 0) continue
                 await pool.query(`UPDATE unitleader SET ${key} = $1 WHERE unitleader_id = $2`, [req.body[key], id])
             }
             res.json('updated successfully')
