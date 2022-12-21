@@ -21,7 +21,7 @@ class TeacherController {
             teacher.teacher_image = `http://127.0.0.1:5000/${req.file.path}`;
             teacher.thumbnail = await createThumbnail(req.file);
 
-            teacher.teacher_password = Utils.hashPassword(teacher.teacher_password)
+            teacher.teacher_password = await Utils.hashPassword(teacher.teacher_password)
 
             const new_teacher = await pool.query('INSERT INTO teacher (teacher_name, teacher_address, teacher_email, teacher_password, teacher_image, thumbnail, teacher_qualification) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
                                                  [teacher.teacher_name, teacher.teacher_address, teacher.teacher_email, teacher.teacher_password, teacher.teacher_image, teacher.thumbnail, teacher.teacher_qualification]
@@ -60,6 +60,8 @@ class TeacherController {
                 req.body.teacher_password = await Utils.hashPassword(req.body.teacher_password)
             }
             if (req.file) {
+                const images = await pool.query('SELECT teacher_image, thumbnail FROM teacher WHERE teacher_id = $1', [id])
+                await Utils.removeImage(images.rows[0])
                 req.body.teacher_image = `http://127.0.0.1:5000/${req.file.path}`;
                 req.body.thumbnail = await createThumbnail(req.file);
             }
@@ -76,6 +78,8 @@ class TeacherController {
     static async deleteTeacher(req, res) {
         try {
             const {id} = req.params
+            const images = await pool.query('SELECT teacher_image, thumbnail FROM teacher WHERE teacher_id = $1', [id])
+            await Utils.removeImage(images.rows[0])
             await pool.query('DELETE FROM teacher WHERE teacher_id = $1', [id])
             res.json('deleted successfully')
         } catch (err) {
